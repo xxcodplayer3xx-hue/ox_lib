@@ -15,14 +15,25 @@ interface Props {
 
 const useStyles = createStyles((theme, params: { iconColor?: string }) => ({
   buttonContainer: {
-    backgroundColor: theme.colors.dark[6],
-    borderRadius: theme.radius.md,
+    background: 'linear-gradient(110deg, rgba(13, 27, 34, 0.96), rgba(9, 19, 25, 0.96))',
+    border: '1px solid rgba(255, 255, 255, 0.07)',
+    borderLeft: '2px solid rgba(113, 237, 218, 0.2)',
+    borderRadius: 7,
     padding: 2,
     height: 60,
     scrollMargin: 8,
+    transition: 'all 120ms ease',
+    '&:hover': {
+      background: 'linear-gradient(110deg, rgba(19, 42, 48, 0.98), rgba(12, 26, 33, 0.98))',
+      borderColor: 'rgba(113, 237, 218, 0.35)',
+      borderLeftColor: '#71edda',
+      transform: 'translateX(2px)',
+    },
     '&:focus': {
-      backgroundColor: theme.colors.dark[4],
+      backgroundColor: '#17343b',
+      borderColor: '#71edda',
       outline: 'none',
+      boxShadow: '0 0 0 1px rgba(113, 237, 218, 0.18), 0 0 18px rgba(113, 237, 218, 0.1)',
     },
   },
   iconImage: {
@@ -41,20 +52,22 @@ const useStyles = createStyles((theme, params: { iconColor?: string }) => ({
   },
   icon: {
     fontSize: 24,
-    color: params.iconColor || theme.colors.dark[2],
+    color: params.iconColor || '#71edda',
   },
   label: {
-    color: theme.colors.dark[2],
+    color: '#dcebea',
     textTransform: 'uppercase',
     fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.6,
     verticalAlign: 'middle',
   },
   chevronIcon: {
     fontSize: 14,
-    color: theme.colors.dark[2],
+    color: '#86aaa8',
   },
   scrollIndexValue: {
-    color: theme.colors.dark[2],
+    color: '#86aaa8',
     textTransform: 'uppercase',
     fontSize: 14,
   },

@@ -51,10 +51,22 @@ const AlertDialog: React.FC = () => {
           closeAlert('cancel');
         }}
         withCloseButton={false}
-        overlayOpacity={0.5}
+        overlayOpacity={0.72}
+        overlayColor="#03090c"
         exitTransitionDuration={150}
-        transition="fade"
+        transition="pop"
         title={<ReactMarkdown components={MarkdownComponents}>{dialogData.header}</ReactMarkdown>}
+        styles={{
+          modal: {
+            background: 'linear-gradient(145deg, rgba(12, 28, 35, 0.99), rgba(7, 16, 21, 0.99))',
+            border: '1px solid rgba(113, 237, 218, 0.3)',
+            borderTop: '3px solid #71edda',
+            borderRadius: 9,
+            boxShadow: '0 20px 55px rgba(0, 0, 0, 0.5)',
+          },
+          title: { color: '#f1fbfa', fontSize: 17, fontWeight: 800, letterSpacing: 0.8 },
+          close: { color: '#8fada9' },
+        }}
       >
         <Stack className={classes.contentStack}>
           <ReactMarkdown
@@ -74,7 +86,7 @@ const AlertDialog: React.FC = () => {
             )}
             <Button
               uppercase
-              variant={dialogData.cancel ? 'light' : 'default'}
+              variant={dialogData.cancel ? 'light' : 'filled'}
               color={dialogData.cancel ? theme.primaryColor : undefined}
               onClick={() => closeAlert('confirm')}
             >

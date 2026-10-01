@@ -7,11 +7,13 @@ import type { ProgressbarProps } from '../../typings';
 
 const useStyles = createStyles((theme) => ({
   container: {
-    width: 350,
-    height: 45,
-    borderRadius: theme.radius.sm,
-    backgroundColor: theme.colors.dark[5],
+    width: 390,
+    height: 48,
+    border: '1px solid rgba(113, 237, 218, 0.3)',
+    borderRadius: 7,
+    background: 'rgba(7, 17, 22, 0.95)',
     overflow: 'hidden',
+    boxShadow: '0 10px 26px rgba(0, 0, 0, 0.35), 0 0 20px rgba(113, 237, 218, 0.08)',
   },
   wrapper: {
     width: '100%',
@@ -24,13 +26,14 @@ const useStyles = createStyles((theme) => ({
   },
   bar: {
     height: '100%',
-    backgroundColor: theme.colors[theme.primaryColor][theme.fn.primaryShade()],
+    background: 'linear-gradient(90deg, #71edda, #c5fff5)',
+    boxShadow: '0 0 22px rgba(113, 237, 218, 0.3)',
   },
   labelWrapper: {
     position: 'absolute',
     display: 'flex',
-    width: 350,
-    height: 45,
+    width: 390,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -40,8 +43,10 @@ const useStyles = createStyles((theme) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    fontSize: 20,
-    color: theme.colors.gray[3],
+    fontSize: 13,
+    fontWeight: 700,
+    letterSpacing: 0.7,
+    color: '#e7faf7',
     textShadow: theme.shadows.sm,
   },
 }));

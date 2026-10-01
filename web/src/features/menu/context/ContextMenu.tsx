@@ -16,10 +16,11 @@ const openMenu = (id: string | undefined) => {
 const useStyles = createStyles((theme) => ({
   container: {
     position: 'absolute',
-    top: '15%',
-    right: '25%',
-    width: 320,
+    top: '13%',
+    right: '8%',
+    width: 340,
     height: 580,
+    filter: 'drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35))',
   },
   header: {
     justifyContent: 'center',
@@ -28,18 +29,26 @@ const useStyles = createStyles((theme) => ({
     gap: 6,
   },
   titleContainer: {
-    borderRadius: 4,
+    borderRadius: 7,
     flex: '1 85%',
-    backgroundColor: theme.colors.dark[6],
+    border: '1px solid rgba(113, 237, 218, 0.28)',
+    background: 'linear-gradient(135deg, rgba(12, 28, 35, 0.98), rgba(8, 18, 24, 0.98))',
   },
   titleText: {
-    color: theme.colors.dark[0],
-    padding: 6,
-    textAlign: 'center',
+    color: '#f1fbfa',
+    padding: 10,
+    textAlign: 'left',
+    fontSize: 14,
+    fontWeight: 800,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
   buttonsContainer: {
     height: 560,
+    padding: 2,
     overflowY: 'scroll',
+    '&::-webkit-scrollbar': { width: 3 },
+    '&::-webkit-scrollbar-thumb': { backgroundColor: 'rgba(113, 237, 218, 0.35)' },
   },
   buttonsFlexWrapper: {
     gap: 3,
