@@ -23,27 +23,34 @@ const useStyles = createStyles((theme, params: { position: 'middle' | 'bottom'; 
   },
   progress: {
     '> svg > circle:nth-child(1)': {
-      stroke: '#17343b',
+      stroke: '#1b3437',
+      strokeWidth: 7,
     },
     // Scuffed way of grabbing the first section and animating it
     '> svg > circle:nth-child(2)': {
       transition: 'none',
       animation: `${progressCircle} linear forwards`,
       animationDuration: `${params.duration}ms`,
-      filter: 'drop-shadow(0 0 5px rgba(113, 237, 218, 0.45))',
+      stroke: '#8fffe8',
+      filter: 'drop-shadow(0 0 8px rgba(113, 237, 218, 0.48))',
     },
   },
   value: {
     textAlign: 'center',
-    fontFamily: 'Roboto Mono',
-    textShadow: '0 0 12px rgba(113, 237, 218, 0.35)',
-    color: '#e7faf7',
+    fontFamily: 'Space Mono, monospace',
+    textShadow: '0 0 14px rgba(113, 237, 218, 0.4)',
+    color: '#f1fffc',
+    fontWeight: 700,
   },
   label: {
     textAlign: 'center',
     textShadow: '0 0 12px rgba(113, 237, 218, 0.35)',
-    color: '#e7faf7',
+    color: '#b4d2ce',
     height: 25,
+    fontSize: 12,
+    fontWeight: 700,
+    letterSpacing: 0.9,
+    textTransform: 'uppercase',
   },
   wrapper: {
     marginTop: params.position === 'middle' ? 25 : undefined,

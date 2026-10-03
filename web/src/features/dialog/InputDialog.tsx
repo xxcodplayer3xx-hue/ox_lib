@@ -131,13 +131,15 @@ const InputDialog: React.FC = () => {
         exitTransitionDuration={150}
         styles={{
           modal: {
-            background: 'linear-gradient(145deg, rgba(12, 28, 35, 0.99), rgba(7, 16, 21, 0.99))',
-            border: '1px solid rgba(113, 237, 218, 0.3)',
-            borderTop: '3px solid #71edda',
-            borderRadius: 9,
-            boxShadow: '0 20px 55px rgba(0, 0, 0, 0.5)',
+            background: 'linear-gradient(145deg, rgba(15, 27, 31, 0.99), rgba(7, 16, 20, 0.99))',
+            border: '1px solid rgba(177, 255, 239, 0.18)',
+            borderTop: '2px solid #8fffe8',
+            borderRadius: 13,
+            boxShadow: '0 24px 65px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.24)',
           },
-          title: { color: '#f1fbfa', fontSize: 17, fontWeight: 800, letterSpacing: 0.8 },
+          title: { color: '#f1fffc', fontSize: 17, fontWeight: 800, letterSpacing: 0.5 },
+          header: { background: 'transparent', paddingBottom: 8 },
+          body: { paddingTop: 8 },
         }}
       >
         <form onSubmit={onSubmit}>
@@ -183,14 +185,20 @@ const InputDialog: React.FC = () => {
             <Group position="right" spacing={10}>
               <Button
                 uppercase
-                variant="subtle"
+                variant="default"
                 onClick={() => handleClose()}
                 mr={3}
                 disabled={fields.options?.allowCancel === false}
+                styles={{ root: { background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(177, 255, 239, 0.14)', color: '#a7c3bf' } }}
               >
                 {locale.ui.cancel}
               </Button>
-              <Button uppercase variant="filled" type="submit">
+              <Button
+                uppercase
+                variant="filled"
+                type="submit"
+                styles={{ root: { boxShadow: '0 8px 18px rgba(113, 237, 218, 0.18)', color: '#071114' } }}
+              >
                 {locale.ui.confirm}
               </Button>
             </Group>

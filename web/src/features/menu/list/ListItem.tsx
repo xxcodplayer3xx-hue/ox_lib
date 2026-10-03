@@ -15,25 +15,25 @@ interface Props {
 
 const useStyles = createStyles((theme, params: { iconColor?: string }) => ({
   buttonContainer: {
-    background: 'linear-gradient(110deg, rgba(13, 27, 34, 0.96), rgba(9, 19, 25, 0.96))',
-    border: '1px solid rgba(255, 255, 255, 0.07)',
-    borderLeft: '2px solid rgba(113, 237, 218, 0.2)',
-    borderRadius: 7,
-    padding: 2,
-    height: 60,
+    background: 'linear-gradient(110deg, rgba(15, 29, 33, 0.97), rgba(8, 18, 22, 0.97))',
+    border: '1px solid rgba(177, 255, 239, 0.1)',
+    borderLeft: '2px solid rgba(143, 255, 232, 0.24)',
+    borderRadius: 10,
+    padding: 3,
+    height: 64,
     scrollMargin: 8,
     transition: 'all 120ms ease',
     '&:hover': {
-      background: 'linear-gradient(110deg, rgba(19, 42, 48, 0.98), rgba(12, 26, 33, 0.98))',
-      borderColor: 'rgba(113, 237, 218, 0.35)',
-      borderLeftColor: '#71edda',
+      background: 'linear-gradient(110deg, rgba(27, 57, 59, 0.98), rgba(12, 28, 31, 0.98))',
+      borderColor: 'rgba(143, 255, 232, 0.36)',
+      borderLeftColor: '#8fffe8',
       transform: 'translateX(2px)',
     },
     '&:focus': {
-      backgroundColor: '#17343b',
-      borderColor: '#71edda',
+      backgroundColor: '#1b393b',
+      borderColor: '#8fffe8',
       outline: 'none',
-      boxShadow: '0 0 0 1px rgba(113, 237, 218, 0.18), 0 0 18px rgba(113, 237, 218, 0.1)',
+      boxShadow: '0 0 0 1px rgba(143, 255, 232, 0.2), 0 0 20px rgba(113, 237, 218, 0.12)',
     },
   },
   iconImage: {
@@ -52,7 +52,7 @@ const useStyles = createStyles((theme, params: { iconColor?: string }) => ({
   },
   icon: {
     fontSize: 24,
-    color: params.iconColor || '#71edda',
+    color: params.iconColor || '#8fffe8',
   },
   label: {
     color: '#dcebea',
@@ -139,8 +139,9 @@ const ListItem = forwardRef<Array<HTMLDivElement | null>, Props>(({ item, index,
             <Text className={classes.progressLabel}>{item.label}</Text>
             <Progress
               value={item.progress}
-              color={item.colorScheme || 'dark.0'}
-              styles={(theme) => ({ root: { backgroundColor: theme.colors.dark[3] } })}
+              color={item.colorScheme || 'teal'}
+              radius="xl"
+              styles={{ root: { backgroundColor: 'rgba(255, 255, 255, 0.08)' } }}
             />
           </Stack>
         ) : (

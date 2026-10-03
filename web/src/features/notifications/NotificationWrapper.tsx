@@ -3,43 +3,76 @@ import { toast, Toaster } from 'react-hot-toast';
 import ReactMarkdown from 'react-markdown';
 import { Box, Center, createStyles, Group, keyframes, RingProgress, Stack, Text, ThemeIcon } from '@mantine/core';
 import React, { useState } from 'react';
-import tinycolor from 'tinycolor2';
 import type { NotificationProps } from '../../typings';
 import MarkdownComponents from '../../config/MarkdownComponents';
 import LibIcon from '../../components/LibIcon';
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   container: {
-    width: 330,
-    minHeight: 66,
+    position: 'relative',
+    width: 356,
+    minHeight: 72,
     height: 'fit-content',
-    background: 'linear-gradient(135deg, rgba(10, 22, 29, 0.98), rgba(16, 34, 40, 0.96))',
-    color: '#effcf9',
-    padding: 13,
-    border: '1px solid rgba(113, 237, 218, 0.22)',
-    borderLeft: '3px solid #71edda',
-    borderRadius: 8,
+    padding: '14px 16px 14px 14px',
+    overflow: 'hidden',
+    border: '1px solid rgba(177, 255, 239, 0.14)',
+    borderRadius: 12,
+    color: '#f1fffc',
     fontFamily: 'Space Grotesk, sans-serif',
-    boxShadow: '0 14px 30px rgba(0, 0, 0, 0.35), 0 0 22px rgba(113, 237, 218, 0.08)',
+    background: 'linear-gradient(135deg, rgba(15, 27, 31, 0.98), rgba(7, 16, 20, 0.98))',
+    boxShadow: '0 18px 42px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(0, 0, 0, 0.24)',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      width: 110,
+      height: 1,
+      background: 'linear-gradient(90deg, transparent, rgba(143, 255, 232, 0.7))',
+    },
   },
   title: {
+    fontSize: 13,
     fontWeight: 800,
-    letterSpacing: 0.4,
-    lineHeight: 'normal',
+    letterSpacing: 0.35,
+    lineHeight: 1.3,
   },
   description: {
+    marginTop: 3,
     fontSize: 12,
-    color: '#8fada9',
+    color: '#9bb7b3',
     fontFamily: 'Space Grotesk, sans-serif',
-    lineHeight: 'normal',
+    lineHeight: 1.45,
   },
   descriptionOnly: {
-    fontSize: 14,
-    color: '#8fada9',
+    fontSize: 13,
+    color: '#b3ccc8',
     fontFamily: 'Space Grotesk, sans-serif',
-    lineHeight: 'normal',
+    lineHeight: 1.45,
+  },
+  meta: {
+    marginBottom: 3,
+    color: '#6c8a86',
+    fontSize: 9,
+    fontWeight: 800,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
   },
 }));
+
+const statusColors: Record<string, string> = {
+  error: '#ff7d8b',
+  success: '#8fffe8',
+  warning: '#ffd37d',
+  info: '#8fc9ff',
+};
+
+const statusLabels: Record<string, string> = {
+  error: 'Attention',
+  success: 'Complete',
+  warning: 'Caution',
+  info: 'Information',
+};
 
 const createAnimation = (from: string, to: string, visible: boolean) => keyframes({
   from: {
@@ -87,124 +120,89 @@ const Notifications: React.FC = () => {
   useNuiEvent<NotificationProps>('notify', (data) => {
     if (!data.title && !data.description) return;
 
-    const toastId = data.id?.toString();
-    const duration = data.duration || 3000;
+    const notification = { ...data };
+    const toastId = notification.id?.toString();
+    const duration = notification.duration || 3000;
+    let position = notification.position || 'top-right';
+    const type = notification.type || 'info';
+    const icon = notification.icon || (type === 'error'
+      ? 'circle-xmark'
+      : type === 'success'
+      ? 'circle-check'
+      : type === 'warning'
+      ? 'circle-exclamation'
+      : 'circle-info');
+    const iconColor = notification.iconColor || statusColors[type] || statusColors.info;
+    const showDuration = notification.showDuration !== false;
 
-    let iconColor: string;
-    let position = data.position || 'top-right';
+    if (toastId) setToastKey((previousKey) => previousKey + 1);
 
-    data.showDuration = data.showDuration !== undefined ? data.showDuration : true;
-
-    if (toastId) setToastKey(prevKey => prevKey + 1);
-
-    // Backwards compat with old notifications
-    switch (position) {
-      case 'top':
-        position = 'top-center';
-        break;
-      case 'bottom':
-        position = 'bottom-center';
-        break;
-    }
-
-    if (!data.icon) {
-      switch (data.type) {
-        case 'error':
-          data.icon = 'circle-xmark';
-          break;
-        case 'success':
-          data.icon = 'circle-check';
-          break;
-        case 'warning':
-          data.icon = 'circle-exclamation';
-          break;
-        default:
-          data.icon = 'circle-info';
-          break;
-      }
-    }
-
-    if (!data.iconColor) {
-      switch (data.type) {
-        case 'error':
-          iconColor = 'red.6';
-          break;
-        case 'success':
-          iconColor = 'teal.6';
-          break;
-        case 'warning':
-          iconColor = 'yellow.6';
-          break;
-        default:
-          iconColor = 'blue.6';
-          break;
-      }
-    } else {
-      iconColor = tinycolor(data.iconColor).toRgbString();
-    }
+    if (position === 'top') position = 'top-center';
+    if (position === 'bottom') position = 'bottom-center';
 
     toast.custom(
       (t) => (
         <Box
           sx={{
             animation: getAnimation(t.visible, position),
-            ...data.style,
+            borderLeft: `3px solid ${iconColor}`,
+            ...notification.style,
           }}
-          className={`${classes.container}`}
+          className={classes.container}
         >
-          <Group noWrap spacing={12}>
-            {data.icon && (
-              <>
-                {data.showDuration ? (
-                  <RingProgress
-                    key={toastKey}
-                    size={38}
-                    thickness={2}
-                    sections={[{ value: 100, color: iconColor }]}
-                    style={{ alignSelf: !data.alignIcon || data.alignIcon === 'center' ? 'center' : 'start' }}
-                    styles={{
-                      root: {
-                        '> svg > circle:nth-of-type(2)': {
-                          animation: `${durationCircle} linear forwards reverse`,
-                          animationDuration: `${duration}ms`,
-                        },
-                        margin: -3,
+          <Group noWrap spacing={13} align="flex-start">
+            {icon && (
+              showDuration ? (
+                <RingProgress
+                  key={toastKey}
+                  size={42}
+                  thickness={2}
+                  sections={[{ value: 100, color: iconColor }]}
+                  style={{ alignSelf: notification.alignIcon === 'top' ? 'flex-start' : 'center' }}
+                  styles={{
+                    root: {
+                      '> svg > circle:nth-of-type(2)': {
+                        animation: `${durationCircle} linear forwards reverse`,
+                        animationDuration: `${duration}ms`,
                       },
-                    }}
-                    label={
-                      <Center>
-                        <ThemeIcon
-                          color={iconColor}
-                          radius="xl"
-                          size={32}
-                          variant={tinycolor(iconColor).getAlpha() < 0 ? undefined : 'light'}
-                        >
-                          <LibIcon icon={data.icon} fixedWidth color={iconColor} animation={data.iconAnimation} />
-                        </ThemeIcon>
-                      </Center>
-                    }
-                  />
-                ) : (
-                  <ThemeIcon
-                    color={iconColor}
-                    radius="xl"
-                    size={32}
-                    variant={tinycolor(iconColor).getAlpha() < 0 ? undefined : 'light'}
-                    style={{ alignSelf: !data.alignIcon || data.alignIcon === 'center' ? 'center' : 'start' }}
-                  >
-                    <LibIcon icon={data.icon} fixedWidth color={iconColor} animation={data.iconAnimation} />
-                  </ThemeIcon>
-                )}
-              </>
+                      margin: -3,
+                    },
+                  }}
+                  label={
+                    <Center>
+                      <ThemeIcon
+                        color={iconColor}
+                        radius="xl"
+                        size={32}
+                        variant="light"
+                        style={{ backgroundColor: `${iconColor}18` }}
+                      >
+                        <LibIcon icon={icon} fixedWidth color={iconColor} animation={notification.iconAnimation} />
+                      </ThemeIcon>
+                    </Center>
+                  }
+                />
+              ) : (
+                <ThemeIcon
+                  color={iconColor}
+                  radius="xl"
+                  size={36}
+                  variant="light"
+                  style={{ alignSelf: notification.alignIcon === 'top' ? 'flex-start' : 'center' }}
+                >
+                  <LibIcon icon={icon} fixedWidth color={iconColor} animation={notification.iconAnimation} />
+                </ThemeIcon>
+              )
             )}
-            <Stack spacing={0}>
-              {data.title && <Text className={classes.title}>{data.title}</Text>}
-              {data.description && (
+            <Stack spacing={0} style={{ flex: 1, minWidth: 0 }}>
+              <Text className={classes.meta}>{statusLabels[type] || statusLabels.info}</Text>
+              {notification.title && <Text className={classes.title}>{notification.title}</Text>}
+              {notification.description && (
                 <ReactMarkdown
                   components={MarkdownComponents}
-                  className={`${!data.title ? classes.descriptionOnly : classes.description} description`}
+                  className={`${!notification.title ? classes.descriptionOnly : classes.description} description`}
                 >
-                  {data.description}
+                  {notification.description}
                 </ReactMarkdown>
               )}
             </Stack>
@@ -213,8 +211,8 @@ const Notifications: React.FC = () => {
       ),
       {
         id: toastId,
-        duration: duration,
-        position: position,
+        duration,
+        position,
       }
     );
   });

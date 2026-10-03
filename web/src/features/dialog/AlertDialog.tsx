@@ -58,14 +58,16 @@ const AlertDialog: React.FC = () => {
         title={<ReactMarkdown components={MarkdownComponents}>{dialogData.header}</ReactMarkdown>}
         styles={{
           modal: {
-            background: 'linear-gradient(145deg, rgba(12, 28, 35, 0.99), rgba(7, 16, 21, 0.99))',
-            border: '1px solid rgba(113, 237, 218, 0.3)',
-            borderTop: '3px solid #71edda',
-            borderRadius: 9,
-            boxShadow: '0 20px 55px rgba(0, 0, 0, 0.5)',
+            background: 'linear-gradient(145deg, rgba(15, 27, 31, 0.99), rgba(7, 16, 20, 0.99))',
+            border: '1px solid rgba(177, 255, 239, 0.18)',
+            borderTop: '2px solid #8fffe8',
+            borderRadius: 13,
+            boxShadow: '0 24px 65px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.24)',
           },
-          title: { color: '#f1fbfa', fontSize: 17, fontWeight: 800, letterSpacing: 0.8 },
-          close: { color: '#8fada9' },
+          title: { color: '#f1fffc', fontSize: 17, fontWeight: 800, letterSpacing: 0.5 },
+          close: { color: '#9bb7b3' },
+          header: { background: 'transparent', paddingBottom: 8 },
+          body: { paddingTop: 8 },
         }}
       >
         <Stack className={classes.contentStack}>
@@ -80,15 +82,22 @@ const AlertDialog: React.FC = () => {
           </ReactMarkdown>
           <Group position="right" spacing={10}>
             {dialogData.cancel && (
-              <Button uppercase variant="default" onClick={() => closeAlert('cancel')} mr={3}>
+              <Button
+                uppercase
+                variant="default"
+                onClick={() => closeAlert('cancel')}
+                mr={3}
+                styles={{ root: { background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(177, 255, 239, 0.14)', color: '#a7c3bf' } }}
+              >
                 {dialogData.labels?.cancel || locale.ui.cancel}
               </Button>
             )}
             <Button
               uppercase
-              variant={dialogData.cancel ? 'light' : 'filled'}
-              color={dialogData.cancel ? theme.primaryColor : undefined}
+              variant="filled"
+              color={theme.primaryColor}
               onClick={() => closeAlert('confirm')}
+              styles={{ root: { boxShadow: '0 8px 18px rgba(113, 237, 218, 0.18)', color: '#071114' } }}
             >
               {dialogData.labels?.confirm || locale.ui.confirm}
             </Button>

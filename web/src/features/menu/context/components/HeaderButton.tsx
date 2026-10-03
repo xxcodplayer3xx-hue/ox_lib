@@ -11,19 +11,20 @@ interface Props {
 
 const useStyles = createStyles((theme, params: { canClose?: boolean }) => ({
   button: {
-    borderRadius: 4,
+    borderRadius: 10,
     flex: '1 15%',
     alignSelf: 'stretch',
     height: 'auto',
     textAlign: 'center',
     justifyContent: 'center',
     padding: 2,
+    background: 'rgba(15, 29, 33, 0.97)',
   },
   root: {
-    border: 'none',
+    border: '1px solid rgba(177, 255, 239, 0.14)',
   },
   label: {
-    color: params.canClose === false ? theme.colors.dark[2] : theme.colors.dark[0],
+    color: params.canClose === false ? '#55706f' : '#c9e4df',
   },
 }));
 

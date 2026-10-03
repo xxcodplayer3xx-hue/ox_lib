@@ -21,22 +21,22 @@ const useStyles = createStyles((theme, params: { disabled?: boolean; readOnly?: 
   },
   label: {
     width: '100%',
-    color: params.disabled ? '#55706f' : '#edf9f7',
+    color: params.disabled ? '#55706f' : '#effffc',
     whiteSpace: 'pre-wrap',
   },
   button: {
     height: 'fit-content',
     width: '100%',
-    padding: 11,
-    border: '1px solid rgba(255, 255, 255, 0.07)',
-    borderLeft: '2px solid rgba(113, 237, 218, 0.2)',
-    borderRadius: 7,
-    background: 'linear-gradient(110deg, rgba(13, 27, 34, 0.96), rgba(9, 19, 25, 0.96))',
+    padding: '12px 13px',
+    border: '1px solid rgba(177, 255, 239, 0.1)',
+    borderLeft: '2px solid rgba(143, 255, 232, 0.24)',
+    borderRadius: 10,
+    background: 'linear-gradient(110deg, rgba(15, 29, 33, 0.97), rgba(8, 18, 22, 0.97))',
     transition: 'all 120ms ease',
     '&:hover': {
-      backgroundColor: params.readOnly ? 'rgba(13, 27, 34, 0.96)' : '#17343b',
-      borderColor: params.readOnly ? 'rgba(255, 255, 255, 0.07)' : 'rgba(113, 237, 218, 0.35)',
-      borderLeftColor: params.readOnly ? 'rgba(113, 237, 218, 0.2)' : '#71edda',
+      backgroundColor: params.readOnly ? 'rgba(15, 29, 33, 0.97)' : 'rgba(27, 57, 59, 0.98)',
+      borderColor: params.readOnly ? 'rgba(177, 255, 239, 0.1)' : 'rgba(143, 255, 232, 0.36)',
+      borderLeftColor: params.readOnly ? 'rgba(143, 255, 232, 0.24)' : '#8fffe8',
       cursor: params.readOnly ? 'unset' : 'pointer',
       transform: params.readOnly ? 'none' : 'translateX(2px)',
     },
@@ -48,16 +48,18 @@ const useStyles = createStyles((theme, params: { disabled?: boolean; readOnly?: 
     maxWidth: '25px',
   },
   description: {
-    color: params.disabled ? '#55706f' : '#8eacab',
+    color: params.disabled ? '#55706f' : '#9bb7b3',
     fontSize: 12,
   },
   dropdown: {
-    padding: 10,
+    padding: 12,
     color: '#d2e5e3',
     fontSize: 12,
-    maxWidth: 256,
+    maxWidth: 270,
     width: 'fit-content',
-    border: 'none',
+    border: '1px solid rgba(177, 255, 239, 0.14)',
+    borderRadius: 9,
+    background: 'rgba(10, 20, 23, 0.98)',
   },
   buttonStack: {
     gap: 4,
@@ -141,7 +143,13 @@ const ContextButton: React.FC<{
                   </Text>
                 )}
                 {button.progress !== undefined && (
-                  <Progress value={button.progress} size="sm" color={button.colorScheme || 'dark.3'} />
+                  <Progress
+                    value={button.progress}
+                    size="sm"
+                    radius="xl"
+                    color={button.colorScheme || 'teal'}
+                    styles={{ root: { backgroundColor: 'rgba(255, 255, 255, 0.08)' } }}
+                  />
                 )}
               </Stack>
               {(button.menu || button.arrow) && button.arrow !== false && (
@@ -169,7 +177,9 @@ const ContextButton: React.FC<{
                     <Progress
                       value={metadata.progress}
                       size="sm"
-                      color={metadata.colorScheme || button.colorScheme || 'dark.3'}
+                      radius="xl"
+                      color={metadata.colorScheme || button.colorScheme || 'teal'}
+                      styles={{ root: { backgroundColor: 'rgba(255, 255, 255, 0.08)' } }}
                     />
                   )}
                 </>
