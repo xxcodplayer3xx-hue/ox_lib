@@ -19,16 +19,20 @@ local currentText
 ---@param text string
 ---@param options? TextUIOptions
 function lib.showTextUI(text, options)
-    if currentText == text then return end
+    if currentText == text and isOpen then return end
 
-    if not options then options = {} end
+    local data = {}
 
-    options.text = text
+    for key, value in pairs(options or {}) do
+        data[key] = value
+    end
+
+    data.text = text
     currentText = text
 
     SendNUIMessage({
         action = 'textUi',
-        data = options
+        data = data
     })
 
     isOpen = true
