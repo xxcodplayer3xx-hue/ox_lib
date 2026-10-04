@@ -12,7 +12,10 @@ local keepInput = IsNuiFocusKeepingInput()
 local nuiFocusActive = false
 
 function lib.setNuiFocus(allowInput, disableCursor)
-    keepInput = IsNuiFocusKeepingInput()
+    if not nuiFocusActive then
+        keepInput = IsNuiFocusKeepingInput()
+    end
+
     nuiFocusActive = true
     SetNuiFocus(true, not disableCursor)
     SetNuiFocusKeepInput(allowInput)
@@ -22,6 +25,13 @@ function lib.resetNuiFocus()
     nuiFocusActive = false
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(keepInput)
+end
+
+local function resetNuiFocusForPauseMenu()
+    nuiFocusActive = false
+    keepInput = false
+    SetNuiFocus(false, false)
+    SetNuiFocusKeepInput(false)
 end
 
 CreateThread(function()
@@ -54,10 +64,10 @@ CreateThread(function()
             if lib.closeAlertDialog then
                 lib.closeAlertDialog()
             end
+        end
 
-            if nuiFocusActive or IsNuiFocused() then
-                lib.resetNuiFocus()
-            end
+        if pauseMenuActive and (nuiFocusActive or IsNuiFocused() or IsNuiFocusKeepingInput()) then
+            resetNuiFocusForPauseMenu()
         end
 
         wasPauseMenuActive = pauseMenuActive
