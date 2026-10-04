@@ -9,14 +9,58 @@
 ---@alias IconProp 'fas' | 'far' | 'fal' | 'fat' | 'fad' | 'fab' | 'fak' | 'fass'
 
 local keepInput = IsNuiFocusKeepingInput()
+local nuiFocusActive = false
 
 function lib.setNuiFocus(allowInput, disableCursor)
     keepInput = IsNuiFocusKeepingInput()
+    nuiFocusActive = true
     SetNuiFocus(true, not disableCursor)
     SetNuiFocusKeepInput(allowInput)
 end
 
 function lib.resetNuiFocus()
+    nuiFocusActive = false
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(keepInput)
 end
+
+CreateThread(function()
+    local wasPauseMenuActive = false
+
+    while true do
+        local pauseMenuActive = IsPauseMenuActive()
+
+        if pauseMenuActive and not wasPauseMenuActive then
+            if lib.getOpenMenu and lib.getOpenMenu() then
+                lib.hideMenu()
+            end
+
+            if lib.getOpenContextMenu and lib.getOpenContextMenu() then
+                lib.hideContext()
+            end
+
+            if lib.getCurrentRadialId and lib.getCurrentRadialId() then
+                lib.hideRadial()
+            end
+
+            if lib.isTextUIOpen and lib.isTextUIOpen() then
+                lib.hideTextUI()
+            end
+
+            if lib.closeInputDialog then
+                lib.closeInputDialog()
+            end
+
+            if lib.closeAlertDialog then
+                lib.closeAlertDialog()
+            end
+
+            if nuiFocusActive or IsNuiFocused() then
+                lib.resetNuiFocus()
+            end
+        end
+
+        wasPauseMenuActive = pauseMenuActive
+        Wait(pauseMenuActive and 100 or 250)
+    end
+end)
